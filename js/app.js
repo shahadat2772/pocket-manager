@@ -1,9 +1,11 @@
+// GET THE VALUES OF INPUT FIELDS
 function getValueOf(id) {
   var field = document.getElementById(id + "-field");
   var fieldValue = field.value;
   return fieldValue;
 }
 
+// UPDATE VARIOUS AMOUNTES IN THE SITE USING FUNCTION
 function updateAmounts(id, byAmouny, isAdd) {
   var toUpdate = document.getElementById(id);
   if (isAdd == true) {
@@ -13,10 +15,12 @@ function updateAmounts(id, byAmouny, isAdd) {
   }
 }
 
+// CLEARING INPUT VALUES
 function clearInputFields(id) {
   document.getElementById(id + "-field").value = "";
 }
 
+// EVENT HANDALER FOR CALCULATE BUTTON
 var calculateButton = document.getElementById("calculateBtn");
 calculateButton.addEventListener("click", function () {
   var incomeInput = getValueOf("income");
@@ -36,6 +40,7 @@ calculateButton.addEventListener("click", function () {
   clearInputFields("clothes");
 });
 
+// EVENT HANDALER FOR SAVE BUTTON
 var saveButton = document.getElementById("save-button");
 saveButton.addEventListener("click", function () {
   var incomeInput = getValueOf("income");
