@@ -6,13 +6,9 @@ function getValueOf(id) {
 }
 
 // UPDATE VARIOUS AMOUNTES IN THE SITE USING FUNCTION
-function updateAmounts(id, byAmouny, isAdd) {
+function updateAmounts(id, byAmouny) {
   var toUpdate = document.getElementById(id);
-  if (isAdd == true) {
-    toUpdate.innerText = parseFloat(toUpdate.innerText) + byAmouny;
-  } else {
-    toUpdate.innerText = parseFloat(toUpdate.innerText) - byAmouny;
-  }
+  toUpdate.innerText = byAmouny;
 }
 
 // CLEARING INPUT VALUES
@@ -28,8 +24,13 @@ function isNumber(n) {
 // CHECK IF IT'S POSITIVE OR NOT
 function isPositive(n) {
   let num = parseFloat(n);
-  if (num > 0) {
+
+  if (num == -0) {
+    return false;
+  } else if (num >= 0) {
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -66,10 +67,10 @@ calculateButton.addEventListener("click", function () {
     if (parseFloat(incomeInput) < totalExpenses) {
       alert("Your total expenses should be less then your income");
     } else {
-      updateAmounts("total-expenses", totalExpenses, true);
+      updateAmounts("total-expenses", totalExpenses);
 
       var balance = parseFloat(incomeInput) - totalExpenses;
-      updateAmounts("balance", balance, true);
+      updateAmounts("balance", balance);
 
       //   CLEARING INPUT FIELDS
       clearInputFields("food");
@@ -103,7 +104,7 @@ saveButton.addEventListener("click", function () {
     if (totalSavingAmount > parseFloat(balance.innerText)) {
       alert("Total saving amount should be less then your current balance");
     } else {
-      updateAmounts("saving-amount", totalSavingAmount, true);
+      updateAmounts("saving-amount", totalSavingAmount);
       remainingBalance.innerText =
         parseFloat(balance.innerText) - parseFloat(saveAmount.innerText);
 
