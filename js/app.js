@@ -20,6 +20,11 @@ function clearInputFields(id) {
   document.getElementById(id + "-field").value = "";
 }
 
+// FUNCTION TO CHECK EITHER IT'S STRING OR NUMBER
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+}
+
 // EVENT HANDALER FOR CALCULATE BUTTON
 var calculateButton = document.getElementById("calculateBtn");
 calculateButton.addEventListener("click", function () {
@@ -28,16 +33,26 @@ calculateButton.addEventListener("click", function () {
   var rentInput = getValueOf("rent");
   var clothesInput = getValueOf("clothes");
 
-  var totalExpenses =
-    parseFloat(foodInput) + parseFloat(rentInput) + parseFloat(clothesInput);
-  updateAmounts("total-expenses", totalExpenses, true);
+  if (isNumber(incomeInput) == false) {
+    alert("Please enter a number in income field");
+  } else if (isNumber(foodInput) == false) {
+    alert("Please enter a number in food field");
+  } else if (isNumber(rentInput) == false) {
+    alert("Please enter a number in rent field");
+  } else if (isNumber(clothesInput) == false) {
+    alert("Please enter a number in clothes field");
+  } else {
+    var totalExpenses =
+      parseFloat(foodInput) + parseFloat(rentInput) + parseFloat(clothesInput);
+    updateAmounts("total-expenses", totalExpenses, true);
 
-  var balance = parseFloat(incomeInput) - totalExpenses;
-  updateAmounts("balance", balance, true);
+    var balance = parseFloat(incomeInput) - totalExpenses;
+    updateAmounts("balance", balance, true);
 
-  clearInputFields("food");
-  clearInputFields("rent");
-  clearInputFields("clothes");
+    clearInputFields("food");
+    clearInputFields("rent");
+    clearInputFields("clothes");
+  }
 });
 
 // EVENT HANDALER FOR SAVE BUTTON
