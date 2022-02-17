@@ -25,9 +25,7 @@ function isNumber(n) {
 function isPositive(n) {
   let num = parseFloat(n);
 
-  if (num == -0) {
-    return false;
-  } else if (num >= 0) {
+  if (num >= 0) {
     return true;
   } else {
     return false;
@@ -89,6 +87,8 @@ saveButton.addEventListener("click", function () {
   var saveAmount = document.getElementById("saving-amount");
   var remainingBalance = document.getElementById("reamaining-balance");
 
+  //   ERROR HANDALING FOR SAVING BUTTON
+
   if (parseFloat(balance.innerText) == 0) {
     alert("Please calculate your current balance first");
   } else if (getValueOf("save") == "") {
@@ -96,7 +96,7 @@ saveButton.addEventListener("click", function () {
   } else if (isNumber(savingPersentage) == false) {
     alert("Please enter a number in your saving percrntage");
   } else if (isPositive(savingPersentage) == false) {
-    alert("Please enter positive in your saving percrntage");
+    alert("Please enter positive number in your saving percrntage");
   } else {
     var totalSavingAmount =
       (parseFloat(incomeInput) / 100) * parseFloat(savingPersentage);
@@ -109,7 +109,6 @@ saveButton.addEventListener("click", function () {
         parseFloat(balance.innerText) - parseFloat(saveAmount.innerText);
 
       clearInputFields("save");
-      clearInputFields("income");
     }
   }
 });
