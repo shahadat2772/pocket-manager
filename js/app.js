@@ -20,9 +20,17 @@ function clearInputFields(id) {
   document.getElementById(id + "-field").value = "";
 }
 
-// FUNCTION TO CHECK EITHER IT'S STRING OR NUMBER
+// FUNCTION TO CHECK EITHER IT'S A STRING OR NUMBER
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+}
+
+// CHECK IF IT'S POSITIVE OR NOT
+function isPositive(n) {
+  let num = parseFloat(n);
+  if (num > 0) {
+    return true;
+  }
 }
 
 // EVENT HANDALER FOR CALCULATE BUTTON
@@ -33,25 +41,41 @@ calculateButton.addEventListener("click", function () {
   var rentInput = getValueOf("rent");
   var clothesInput = getValueOf("clothes");
 
+  //   ERROR HANDALING FOR CALCULATE BUTTON
+
   if (isNumber(incomeInput) == false) {
     alert("Please enter a number in income field");
+  } else if (isPositive(incomeInput) == false) {
+    alert("Please try with positive valid numbers");
   } else if (isNumber(foodInput) == false) {
     alert("Please enter a number in food field");
+  } else if (isPositive(foodInput) == false) {
+    alert("Please try with positive valid numbers");
   } else if (isNumber(rentInput) == false) {
     alert("Please enter a number in rent field");
+  } else if (isPositive(rentInput) == false) {
+    alert("Please try with positive valid numbers");
   } else if (isNumber(clothesInput) == false) {
     alert("Please enter a number in clothes field");
+  } else if (isPositive(clothesInput) == false) {
+    alert("Please try with positive valid numbers");
   } else {
     var totalExpenses =
       parseFloat(foodInput) + parseFloat(rentInput) + parseFloat(clothesInput);
-    updateAmounts("total-expenses", totalExpenses, true);
 
-    var balance = parseFloat(incomeInput) - totalExpenses;
-    updateAmounts("balance", balance, true);
+    if (parseFloat(incomeInput) < totalExpenses) {
+      alert("Your total expenses should be less then your income");
+    } else {
+      updateAmounts("total-expenses", totalExpenses, true);
 
-    clearInputFields("food");
-    clearInputFields("rent");
-    clearInputFields("clothes");
+      var balance = parseFloat(incomeInput) - totalExpenses;
+      updateAmounts("balance", balance, true);
+
+      //   CLEARING INPUT FIELDS
+      clearInputFields("food");
+      clearInputFields("rent");
+      clearInputFields("clothes");
+    }
   }
 });
 
@@ -60,18 +84,31 @@ var saveButton = document.getElementById("save-button");
 saveButton.addEventListener("click", function () {
   var incomeInput = getValueOf("income");
   var savingPersentage = getValueOf("save");
-  var totalSavingAmount =
-    (parseFloat(incomeInput) / 100) * parseFloat(savingPersentage);
-
-  updateAmounts("saving-amount", totalSavingAmount, true);
-
   var balance = document.getElementById("balance");
   var saveAmount = document.getElementById("saving-amount");
   var remainingBalance = document.getElementById("reamaining-balance");
 
-  remainingBalance.innerText =
-    parseFloat(balance.innerText) - parseFloat(saveAmount.innerText);
+  if (parseFloat(balance.innerText) == 0) {
+    alert("Please calculate your current balance first");
+  } else if (getValueOf("save") == "") {
+    alert("Please enter your saving percrntage");
+  } else if (isNumber(savingPersentage) == false) {
+    alert("Please enter a number in your saving percrntage");
+  } else if (isPositive(savingPersentage) == false) {
+    alert("Please enter positive in your saving percrntage");
+  } else {
+    var totalSavingAmount =
+      (parseFloat(incomeInput) / 100) * parseFloat(savingPersentage);
 
-  clearInputFields("save");
-  clearInputFields("income");
+    if (totalSavingAmount > parseFloat(balance.innerText)) {
+      alert("Total saving amount should be less then your current balance");
+    } else {
+      updateAmounts("saving-amount", totalSavingAmount, true);
+      remainingBalance.innerText =
+        parseFloat(balance.innerText) - parseFloat(saveAmount.innerText);
+
+      clearInputFields("save");
+      clearInputFields("income");
+    }
+  }
 });
